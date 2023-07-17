@@ -1,0 +1,146 @@
+*{
+
+  font-family: 'IBM Plex Sans KR';
+  font-size: 1.1rem;
+}
+main{
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  align-items: center;
+}
+
+#vigenere_container{
+  display: none;
+}
+
+#caesar,
+#caesar:hover {
+    background-color: white;
+}
+#vigenere:hover {
+    background-color: white;
+}
+
+#main_container{
+  transition: all 0.5s ease;
+  background-color: #ffe59e;
+  border: 10px solid rgb(49, 41, 31);
+  width: 80%;
+}
+
+#select_container{
+  display:flex;
+  flex-direction:row;
+  justify-content: center;
+}
+
+.form_container{
+  display: flex;
+  flex-direction: row;
+  height: 320px;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10%;
+  padding-bottom: 15px;
+}
+
+.input_container{
+  margin: 0 70px;
+}
+
+#result_container{
+  height:fit-content;
+  background-color: white;
+  border-radius: 5px;
+  padding: 30px 50px;
+}
+
+.sub_container{
+  margin-top: 20px;
+  padding: 10px 15px;
+  border: solid 3px rgb(186, 186, 186);
+  border-radius: 10px;
+  height: fit-content;
+  width: 80%; 
+}
+.bold_table{
+  width: fit-content;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+.example_table{
+  width: fit-content;
+  font-weight: 100;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  border: 1px solid black;
+  padding: 0 15px;
+}
+th.g{
+  color: gainsboro;
+}
+
+h1{
+  font-size: 2.5rem;
+  overflow:hidden;
+  margin-left: 50px;
+  width: 80%;
+  background-image: linear-gradient(transparent 50%, rgb(255, 232, 102) 50%);
+  padding-bottom: .25rem;
+}
+
+h4{
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+}
+
+text.gray{
+  color:gray;
+}
+
+.btn_select{
+  width: 50%;
+  height: 6rem;
+
+  background-color: transparent;
+  border: 5px solid white;
+  
+  font-weight: 600;
+  font-size: 1rem;
+  text-overflow : ellipsis;
+}
+
+.btn_confirm{
+  width: 30%;
+  margin: 0.5rem 0;
+}
+
+
+#condition_icon{
+  color: green;
+}
+@media(min-width: 1406px){
+  #main_container{
+    width: 70%;
+  }
+}
+@media(max-width: 976px){
+  
+  #main_container{
+    width: 95%;
+  }
+  h4{
+    margin: 7px -15px;
+  }
+  .form_container{
+    height: 525px;
+    flex-direction:column;
+  }
+  .input_container{
+    flex-direction: row;
+    margin: 8px;
+  }
+}

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./style.css">
+	<title>cipher, vigenere encoder & decoder</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/63c694beca.js" crossorigin="anonymous"></script>
+	<mata name="viewport" content="width=device-width, initial-scale=1"></mata>
+
+</head>
+<body>
+	<header>
+		<h1 class="main_title">Encoder & Decoder</h1>
+	</header>
+	<main>
+		<div id="main_container">
+			<div id="select_container">
+				<button id="caesar" class="btn_select"><text class="title">시저 암호</text><br><text class="subtitle">caesar</text></button>
+				<button id="vigenere" class="btn_select"><text class="title">비즈네르 암호</text><br><text class="subtitle">vigenere</text></button>
+			</div>
+	
+			<div id="caesar_container" class="form_container">
+				<div class="input_container">
+					<h4>암호화 &nbsp;<i class="fa-solid fa-lock"></i></h4>
+
+					<i class="fa-solid fa-arrow-right"></i> Shift<br>
+					<input type="text" id="shift_encoding"><br>
+					<i class="fa-solid fa-comment"></i> 텍스트<br>
+					<input type="text" id="caesar_encoding"><br>
+		
+					<button class="btn_confirm" onclick="caesarEncoding();">GO</button>
+					<button class="btn_confirm" onclick="caesarClear(1);">Clear</button>
+				</div>
+				<div class="input_container">
+					<h4>복호화 &nbsp;<i class="fa-solid fa-unlock"></i></h4>
+
+					<i class="fa-solid fa-arrow-right"></i> Shift <text class="gray">(모르는 경우 0 입력)</text>
+					<br><input type="text" id="shift_decoding"><br>
+
+					<i class="fa-solid fa-comment"></i> 텍스트<br>
+					<input type="text" id="caesar_decoding"><br>
+		
+					<button class="btn_confirm" onclick="caesarDecoding();">GO</button>
+					<button class="btn_confirm" onclick="caesarClear(0);">Clear</button>
+				</div>
+			</div>
+	
+			<div id="vigenere_container" class="form_container">
+				<div class="input_container">
+					<h4>암호화 &nbsp;<i class="fa-solid fa-lock"></i> </h4>
+
+					<i class="fa-solid fa-key"></i> KEY<br>
+					<input type="text" id="key_encoding"><br>
+
+					<i class="fa-solid fa-comment"></i> 텍스트<br>
+					<input type="text" id="vigenere_encoding"><br>
+		
+					<button class="btn_confirm" onclick="vigenereEncoding();">GO</button>
+					<button class="btn_confirm" onclick="vigenereClear(1);">Clear</button>
+				</div>
+				<div class="input_container">
+					<h4>복호화 &nbsp;<i class="fa-solid fa-unlock"></i></h4>
+
+					<i class="fa-solid fa-key"></i> KEY<br>
+					<input type="text" id="key_decoding"><br>
+
+					<i class="fa-solid fa-comment"></i> 텍스트<br>
+					<input type="text" id="vigenere_decoding"><br>
+		
+					<button class="btn_confirm" onclick="vigenereDecoding();">GO</button>
+					<button class="btn_confirm" onclick="vigenereClear(0);">Clear</button>
+				</div>
+			</div>
+
+			<div id="result_container">
+				<div>
+					<i id="condition_icon" class="fa-solid fa-check"></i><text id="condition_text"> </text>
+				</div>
+				
+				<div id="result">
+					<text id="result_text"> 변환 결과가 표시됩니다.</text>
+				</div>
+			</div>
+
+		</div>
+		
+		
+		<div class="sub_container">
+			<h4><i class="fa-regular fa-bell"></i> help</h4>
+			<hr/><br>
+			<b>시저 암호(카이사르 암호)</b> 방식은 알파벳을 shift에 입력한 값만큼 이동하여 암호화합니다.
+			<br><br>
+			shift가 3인 경우, 아래와 같이 변환됩니다. <br><br>
+
+			<i class="fa-solid fa-arrow-right"></i>
+			<table class="example_table">
+				  <tr>
+					<th>변환 전</th><th>a</th><th>b</th><th>c</th>
+					<th class="g">d</th><th class="g">e</th><th class="g">f</th>
+				  </tr>
+				<tr>
+					<th>변환 후</th><th class="g">a</th><th class="g">b</th><th class="g">c</th><th>d</th><th>e</th><th>f</th>
+				</tr>
+			</table>
+			<br>
+			abc ⇒ def <br><br>
+			<br>
+
+			<i class="fa-solid fa-arrow-right"></i>
+			<table class="example_table">
+				<tr>
+					<th>변환 전</th><th>I</th><th>l</th><th>o</th><th>v</th><th>e</th><th>c</th><th>i</th><th>p</th><th>h</th><th>e</th><th>r</th><th>.</th>
+				</tr>
+				<tbody>
+				<tr>
+					<th>변환 후</th><th>L</th><th>o</th><th>r</th><th>y</th><th>h</th><th>f</th><th>l</th><th>s</th><th>k</th><th>h</th><th>u</th><th>.</th>
+				</tr>
+				</tbody>
+			</table>
+
+			<br>
+			I love cipher. ⇒ L oryh flskhu.<br>
+			<br><br>
+
+			  <br>― <br><br>
+
+			<b>비즈네르 암호</b>는 KEY값에 따라 각각 알파벳을 이동하여 암호화합니다.
+			<br><br>
+			KEY = ACE의 경우 아래와 같이 반복되어 shift합니다. <br><br><br>
+
+			<table class="example_table">
+				<tr>
+					<th>변환 전</th><th>I</th><th>l</th><th>o</th><th>v</th><th>e</th><th>c</th><th>i</th><th>p</th><th>h</th><th>e</th><th>r</th><th>.</th>
+				</tr>
+				<tr>
+					<th>KEY</th><th>A</th><th>C</th><th>E</th><th>A</th><th>C</th><th>E</th><th>A</th><th>C</th><th>E</th>
+					<th>A</th><th>C</th><th></th>
+				</tr>
+				<tr>
+					<th>shift</th><th>0</th><th>2</th><th>4</th><th>0</th><th>2</th><th>4</th><th>0</th><th>2</th><th>4</th>
+					<th>0</th><th>2</th><th></th>
+				</tr>
+				<tr>
+					<th>변환 후</th><th>I</th><th>n</th><th>s</th><th>v</th><th>g</th><th>g</th><th>i</th><th>r</th>
+					<th>l</th><th>e</th><th>t</th><th>.</th>
+				</tr>
+			</table>
+			<br>
+			I love cipher. ⇒ K moxf ckqhgs.<br>
+			<br>
+		</div>
+		
+		
+
+	</main>
+	<script src="./script.js"></script>
+</body>
+</html>
