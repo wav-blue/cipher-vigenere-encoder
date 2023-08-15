@@ -1,8 +1,19 @@
 *{
-
+  margin: 0px;
+  padding: 0px;
   font-family: 'IBM Plex Sans KR';
   font-size: 1.1rem;
 }
+
+h1{
+  font-size: 2.5rem;
+  overflow:hidden;
+  margin-left: 50px;
+  width: 80%;
+  background-image: linear-gradient(transparent 50%, rgb(255, 232, 102) 50%);
+  margin-bottom: 25px;
+}
+
 main{
   display: flex;
   flex-direction: column;
@@ -83,15 +94,6 @@ th.g{
   color: gainsboro;
 }
 
-h1{
-  font-size: 2.5rem;
-  overflow:hidden;
-  margin-left: 50px;
-  width: 80%;
-  background-image: linear-gradient(transparent 50%, rgb(255, 232, 102) 50%);
-  padding-bottom: .25rem;
-}
-
 h4{
   font-size: 1.3rem;
   margin-bottom: 10px;
@@ -118,6 +120,13 @@ text.gray{
   margin: 0.5rem 0;
 }
 
+footer{
+  width: 100%;
+  color: gray;
+  font-size: 8px;
+  text-align: center;
+  margin-top: 10px;
+}
 
 #condition_icon{
   color: green;
