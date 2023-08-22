@@ -185,9 +185,7 @@ function caesarDecoding(){
         collect(1);
         for(var i = 0 ; i < inputLength; i++){ 
             if(patternAlpha.test(inputValue[i])){  //특수 문자 처리
-                console.log(inputValue.charCodeAt(i));
                 temp = inputValue.charCodeAt(i) - guess;
-                console.log(temp);
                 temp = checkCode(temp, inputValue[i], 1);
                 result += String.fromCharCode(temp);
             }
