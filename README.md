@@ -1,6 +1,6 @@
 # cipher-vigenere-encoder
 ### 시저 암호, 비즈네르 암호 방식의 암호화 사이트
-주소: https://jocular-pothos-e37c5d.netlify.app/
+주소: https://wav-blue.github.io/cipher-vigenere-encoder/
 <br>
 
 양자컴퓨터를 배우는 과정에서 암호화 방식에 대해 배울 기회가 있었습니다.<br>
