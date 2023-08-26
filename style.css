@@ -1,14 +1,14 @@
 *{
   margin: 0px;
   padding: 0px;
-  font-family: 'IBM Plex Sans KR';
+  font-family: 'IBM Plex Sans KR', sans-serif;
   font-size: 1.1rem;
 }
 
 h1{
   font-size: 2.5rem;
   overflow:hidden;
-  margin-left: 50px;
+  margin: 20px 0 15px 50px;
   width: 80%;
   background-image: linear-gradient(transparent 50%, rgb(255, 232, 102) 50%);
   margin-bottom: 25px;
@@ -34,9 +34,9 @@ main{
 }
 
 #main_container{
-  transition: all 0.5s ease;
+  transition: background-color 0.5s ease;
   background-color: #ffe59e;
-  border: 10px solid rgb(49, 41, 31);
+  border: 6px solid rgb(49, 41, 31);
   width: 80%;
 }
 
