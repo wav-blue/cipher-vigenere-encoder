@@ -19,8 +19,8 @@
 	<main>
 		<article id="main_container">
 			<div id="select_container">
-				<button id="caesar" class="btn_select"><text class="title">시저 암호</text><br><text class="subtitle">caesar</text></button>
-				<button id="vigenere" class="btn_select"><text class="title">비즈네르 암호</text><br><text class="subtitle">vigenere</text></button>
+				<button id="caesar" class="btn_select"><p class="title">시저 암호</p><p class="subtitle">caesar</p></button>
+				<button id="vigenere" class="btn_select"><p class="title">비즈네르 암호</p><p class="subtitle">vigenere</p></button>
 			</div>
 	
 			<div id="caesar_container" class="form_container">
@@ -32,8 +32,8 @@
 					<i class="fa-solid fa-comment"></i> 텍스트<br>
 					<input type="text" id="caesar_encoding"><br>
 		
-					<button class="btn_confirm" onclick="caesarEncoding();">GO</button>
-					<button class="btn_confirm" onclick="caesarClear(1);">Clear</button>
+					<button class="btn_confirm" onclick="caesarEncoding(1);">GO</button>
+					<button class="btn_confirm" onclick="clearFunction('c', 0);">Clear</button>
 				</div>
 				<div class="input_container">
 					<h4>복호화 &nbsp;<i class="fa-solid fa-unlock"></i></h4>
@@ -44,8 +44,8 @@
 					<i class="fa-solid fa-comment"></i> 텍스트<br>
 					<input type="text" id="caesar_decoding"><br>
 		
-					<button class="btn_confirm" onclick="caesarDecoding();">GO</button>
-					<button class="btn_confirm" onclick="caesarClear(0);">Clear</button>
+					<button class="btn_confirm" onclick="caesarEncoding(-1);">GO</button>
+					<button class="btn_confirm" onclick="clearFunction('c', 1);">Clear</button>
 				</div>
 			</div>
 	
@@ -59,8 +59,8 @@
 					<i class="fa-solid fa-comment"></i> 텍스트<br>
 					<input type="text" id="vigenere_encoding"><br>
 		
-					<button class="btn_confirm" onclick="vigenereEncoding();">GO</button>
-					<button class="btn_confirm" onclick="vigenereClear(1);">Clear</button>
+					<button class="btn_confirm" onclick="vigenereEncoding(1);">GO</button>
+					<button class="btn_confirm" onclick="clearFunction('v', 0);">Clear</button>
 				</div>
 				<div class="input_container">
 					<h4>복호화 &nbsp;<i class="fa-solid fa-unlock"></i></h4>
@@ -71,8 +71,8 @@
 					<i class="fa-solid fa-comment"></i> 텍스트<br>
 					<input type="text" id="vigenere_decoding"><br>
 		
-					<button class="btn_confirm" onclick="vigenereDecoding();">GO</button>
-					<button class="btn_confirm" onclick="vigenereClear(0);">Clear</button>
+					<button class="btn_confirm" onclick="vigenereEncoding(-1);">GO</button>
+					<button class="btn_confirm" onclick="clearFunction('v', 1);">Clear</button>
 				</div>
 			</div>
 

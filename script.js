@@ -1,20 +1,30 @@
-
 const caesarBtn = document.querySelector('#caesar');
 const vigenereBtn = document.querySelector('#vigenere');
 
-const selectContainer = document.querySelector('#select_container');
 const caesarContainer = document.querySelector('#caesar_container');
 const vigenereContainer = document.querySelector('#vigenere_container');
 const mainContainer = document.querySelector('#main_container');
-
+            
 const resultText = document.querySelector('#result_text');
-const resultIcon = document.querySelector('#result_icon');
-const resultContainer = document.querySelector('#result_container');//지금필요없음
 
 const conditionText = document.querySelector('#condition_text');
 const conditionIcon = document.querySelector('#condition_icon');
 
+const caesarEncodingInput = [
+    document.querySelector('#shift_encoding'),
+    document.querySelector('#caesar_encoding')];
+const caesarDecodingInput = [
+    document.querySelector('#shift_decoding'),
+    document.querySelector('#caesar_decoding')];
+    
+const vigenereEncodingInput = [
+    document.querySelector('#key_encoding'),
+    document.querySelector('#vigenere_encoding')];
+const vigenereDecodingInput = [
+    document.querySelector('#key_decoding'),
+    document.querySelector('#vigenere_decoding')];
 
+// Select type function
 caesarBtn.addEventListener('click', () => {
     mainContainer.style.backgroundColor = "var(--ceaser-color)";
     caesarContainer.style.display = "flex";
@@ -30,26 +40,19 @@ vigenereBtn.addEventListener('click', () =>{
     vigenereBtn.style.backgroundColor = "white";
 });
 
+
 //clear function
-function caesarClear(code){
-    if(code){
-        document.querySelector('#shift_encoding').value = "";
-        document.querySelector('#caesar_encoding').value = "";
+function clearFunction(char, type){ //c: 시저 v: 비즈네르 / 0: encoding 1: decoding
+    let target;
+    if(char == 'c'){
+        if(type == 0) target = caesarEncodingInput;
+        if(type == 1) target = caesarDecodingInput;
     }
-    else{
-        document.querySelector('#shift_decoding').value = "";
-        document.querySelector('#caesar_decoding').value = "";
+    if(char == 'v'){
+        if(type == 0) target = vigenereEncodingInput;
+        if(type == 1) target = vigenereDecodingInput;
     }
-}
-function vigenereClear(code){
-    if(code){
-        document.querySelector('#key_encoding').value = "";
-        document.querySelector('#vigenere_encoding').value = "";
-    }
-    else{
-        document.querySelector('#key_decoding').value = "";
-        document.querySelector('#vigenere_decoding').value = "";
-    }
+    target.forEach((el)=> el.value = "");
 }
 
 var patternUpper = /[A-Z]/;
@@ -57,25 +60,21 @@ var patternLower = /[a-z]/;
 var patternAlpha = /^[a-zA-Z]*$/;
 var patternNum = /^[0-9]*$/
 
-
 //checkCode: 아스키코드가 [A-Za-z]를 넘어간 경우를 검사/ 값을 조정함
-const minUpper = 'A'.charCodeAt();
-const minLower = 'a'.charCodeAt();
-const maxUpper = 'Z'.charCodeAt();
-const maxLower = 'z'.charCodeAt();
-
-amount = [-26, +26];
+const bigA = 'A'.charCodeAt();
+const smallA = 'a'.charCodeAt();
+const bigZ = 'Z'.charCodeAt();
+const smallZ = 'z'.charCodeAt();
 
 function checkCode(code, original, type){
     if(patternUpper.test(original)){ //대문자 (A-Z를 넘어가는 경우)
-        if(code > maxUpper || code < minUpper){
-            code += amount[type];
+        if(code > bigZ || code < bigA){
+            code += 26 * type * -1;
         } 
     }
-    
     if(patternLower.test(original)){ //소문자 (a-z를 넘어가는 경우)
-        if(code > maxLower || code < minLower){
-            code += amount[type];
+        if(code > smallZ || code < smallA){
+            code += 26 * type * -1;
         } 
     }
     return code;
@@ -98,18 +97,28 @@ const stat = [" Encoding Success!", " Decoding Success!"];
 function collect(code){
     conditionIcon.style.color = "green";
     conditionText.style.color = "green";
-    conditionText.innerText = stat[code];
+    if(code===1) conditionText.innerText = " Encoding Success!";
+    else conditionText.innerText = " Decoding Success!";
 }
 
-// 시저 암호화
-function caesarEncoding(){
-    var inputValue = document.querySelector('#caesar_encoding').value;
-    var number = document.querySelector('#shift_encoding').value;
+// 시저 암호화 & 복호화
+// type:1 암호화 -1 복호화
+function caesarEncoding(type){
+    let number;
+    let inputValue;
 
+    if(type===1){ //encoding
+        number = caesarEncodingInput[0].value;
+        inputValue = caesarEncodingInput[1].value;
+    } else { //decoding
+        number = caesarDecodingInput[0].value;
+        inputValue = caesarDecodingInput[1].value;
+    }
+    
     inputLength = inputValue.length;
     var temp = 0;
-    
-    result = "";
+    let result = "";
+
     if(!number || !inputValue){
         warning(0);
     }
@@ -120,11 +129,11 @@ function caesarEncoding(){
         warning(1);
     }
     else{ //encoding success
-        collect(0);
+        collect(type);
         for(var i = 0 ; i < inputLength; i++){ 
             if(patternAlpha.test(inputValue[i])){  //특수 문자 처리
-                temp = parseInt(number) + inputValue.charCodeAt(i) ;
-                temp = checkCode(temp, inputValue[i], 0);
+                temp = inputValue.charCodeAt(i) + number * type;
+                temp = checkCode(temp, inputValue[i], type);
                 
                 result += String.fromCharCode(temp);
             }
@@ -132,15 +141,20 @@ function caesarEncoding(){
                 result += inputValue[i];
             }
         }
-        resultText.innerText = 'result : ' + result;
     }
-    
+    //decoding case를 출력해야 하는 경우
+    if(type === 'd' && number===0){
+        result += returnAllList(inputValue);
+        
+    }
+    resultText.innerText = 'result : ' + result;
 }
 
 // returnAllList: 모든 shift(0~25) 값에 대해 시저 복호화한 text를 return
-function returnAllList(inputValue, inputLength){
+function returnAllList(inputValue){
     var result = " ↓ shift 값에 따라 아래의 결과를 예상할 수 있습니다.\n\n";
-    
+    let inputLength = inputValue.length;
+
     for(var i = 0; i < 26; i++){
         result += ' '+'shift : '+ i + ' ⇒ ';
         for(var j = 0 ; j < inputLength; j++){ 
@@ -157,151 +171,51 @@ function returnAllList(inputValue, inputLength){
     }
     return result;
 }
-
-// 시저 복호화
-function caesarDecoding(){
-    var inputValue = document.querySelector('#caesar_decoding').value;
-    var guess = document.querySelector('#shift_decoding').value;
-    
+function vigenereEncoding(type){
+    let keyValue;
+    let inputValue;
+    if(type===1){ //encoding
+        keyValue = vigenereEncodingInput[0].value;
+        inputValue = vigenereEncodingInput[1].value;
+    } else{ //decoding
+        keyValue = vigenereDecodingInput[0].value;
+        inputValue = vigenereDecodingInput[1].value;
+    }
+    keyLength = keyValue.length;
     inputLength = inputValue.length;
 
-    result = "";
+    var temp = 0;
+    let result = "";
 
-    if(!guess || !inputValue){
+    if(!keyValue || !inputValue){
         warning(0);
     }
-    else if(!patternNum.test(guess)){ //is not number
-        warning(1);
+    else if(!patternAlpha.test(keyValue)){ //is not number
+        warning(2);
     }
-    else if(guess >= 26){ //out of range
-        warning(1);
-    }
-    else if(guess == 0){ //specific case
-        collect(1);
-        result += returnAllList(inputValue, inputLength);
-        resultText.innerText = result;
-    }
-    else{
-        collect(1);
+    else{ //encoding success
+        collect(type);
+        
+        let idxKey = 0;
+        let keyCode = [];
+
+        keyValue = keyValue.toUpperCase();
+        
+        for(var i = 0 ; i < keyLength; i++){
+            keyCode[i] = keyValue[i].charCodeAt() - bigA;
+        }
         for(var i = 0 ; i < inputLength; i++){ 
             if(patternAlpha.test(inputValue[i])){  //특수 문자 처리
-                temp = inputValue.charCodeAt(i) - guess;
-                temp = checkCode(temp, inputValue[i], 1);
+                temp = inputValue.charCodeAt(i) + type * keyCode[(idxKey % keyLength)];
+                temp = checkCode(temp, inputValue[i], type);
                 result += String.fromCharCode(temp);
+                idxKey++;
             }
-            else {
+            else { 
                 result += inputValue[i];
             }
         }
-        result += '\n'+'\n -----'+'\n';
-        result += returnAllList(inputValue, inputLength);
-
-        
-        resultText.innerText = 'result : ' + result;
     }
-    
-    
+    resultText.innerText = 'result : ' + result;
 }
 
-// 비즈네르 암호화
-function vigenereEncoding(){
-    var inputValue = document.querySelector('#vigenere_encoding').value;
-    var keyValue = document.querySelector('#key_encoding').value;
-
-    result = "";
-
-    if (!keyValue || !inputValue){ //key가 입력되지 않은 경우
-        warning(0);
-    }
-    else{
-        if(!patternAlpha.test(keyValue)){ //key에 특수문자가 입력된 경우 예외 처리
-            warning(2);
-        }
-        else{  
-            collect(0);
-            keyLength = keyValue.length;
-            inputLength = inputValue.length;
-
-            var idxKey = 0;
-            var keyCode = [] //key값의 아스키코드 저장(0~25의 숫자로 변환)
-
-            var temp = 0;
-
-            keyValue = keyValue.toUpperCase();
-
-            for(var i = 0; i < keyLength; i++){
-                keyCode[i] = keyValue[i].charCodeAt() - minUpper;
-            }
-            for(var i = 0 ; i < inputLength; i++){
-                if(patternAlpha.test(inputValue[i])){ //특수 문자 처리
-                    temp = inputValue.charCodeAt(i)+keyCode[(idxKey % keyLength)]; //아스키코드 수정
-                    temp = checkCode(temp, inputValue[i], 0);
-                    result += String.fromCharCode(temp);
-                    idxKey += 1;
-                }
-                else{
-                    result += inputValue[i];
-                }
-            }
-            resultText.innerText = 'key = '+ keyValue + '\n' + 'result : ' + result;
-        }
-    }
-    
-}
-
-// 비즈네르 복호화
-function vigenereDecoding(){
-    var inputValue = document.querySelector('#vigenere_decoding').value;
-    var keyValue = document.querySelector('#key_decoding').value;
-
-    result = "";
-    if (!keyValue || !inputValue){
-        warning(0);
-    }
-    else{
-        keyLength = keyValue.length;
-        inputLength = inputValue.length;
-        
-        if(!patternAlpha.test(keyValue)){
-            warning(2);
-        }
-        else{
-            collect(1);
-            var idxKey = 0;
-            var keyCode = []
-            var temp = 0;
-
-            keyValue = keyValue.toUpperCase();
-
-            for(var i = 0; i < keyLength; i++){
-                keyCode[i] = keyValue[i].charCodeAt() - minUpper;
-            }
-            for(var i = 0 ; i < inputLength; i++){
-                temp = inputValue.charCodeAt(i)-keyCode[(idxKey % keyLength)]; //아스키코드 수정
-
-                //대문자 (A를 넘어가는 경우)
-                if(patternUpper.test(inputValue[i])){
-                    if(temp < minUpper){
-                        temp += 26;
-                    } 
-                    result += String.fromCharCode(temp);
-                }
-                //소문자 (a를 넘어가는 경우)
-                else if(patternLower.test(inputValue[i])){
-                    if(temp < minLower){
-                        temp += 26;
-                    } 
-                    result += String.fromCharCode(temp);
-                }
-                else {
-                    //특수 문자 처리
-                    result += inputValue[i];
-                    idxKey -= 1;
-                }
-                idxKey += 1;
-            }
-            resultText.innerText = 'key = '+ keyValue + '\n'+ 'result : ' + result;
-        }
-
-    }
-}
