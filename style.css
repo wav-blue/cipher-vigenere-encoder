@@ -1,3 +1,8 @@
+:root{
+  --ceaser-color: #ffe59e;
+  --vigenere-color: #8CC0DE;
+}
+
 *{
   margin: 0px;
   padding: 0px;
@@ -35,7 +40,7 @@ main{
 
 #main_container{
   transition: background-color 0.5s ease;
-  background-color: #ffe59e;
+  background-color: var(--ceaser-color);
   border: 6px solid rgb(49, 41, 31);
   width: 80%;
 }

@@ -16,14 +16,14 @@ const conditionIcon = document.querySelector('#condition_icon');
 
 
 caesarBtn.addEventListener('click', () => {
-    mainContainer.style.backgroundColor = "#ffe59e";
+    mainContainer.style.backgroundColor = "var(--ceaser-color)";
     caesarContainer.style.display = "flex";
     vigenereContainer.style.display = "none";
     caesarBtn.style.backgroundColor = "white";
     vigenereBtn.style.backgroundColor = "transparent";
 });
 vigenereBtn.addEventListener('click', () =>{
-    mainContainer.style.backgroundColor = "#8CC0DE";
+    mainContainer.style.backgroundColor = "var(--vigenere-color)";
     vigenereContainer.style.display = "flex";
     caesarContainer.style.display = "none";
     caesarBtn.style.backgroundColor = "transparent";
@@ -139,7 +139,7 @@ function caesarEncoding(){
 
 // returnAllList: 모든 shift(0~25) 값에 대해 시저 복호화한 text를 return
 function returnAllList(inputValue, inputLength){
-    var result = " ↓ shift 값에 따라 아래의 결과를 예상할 수 있습니다." + '\n'+'\n';
+    var result = " ↓ shift 값에 따라 아래의 결과를 예상할 수 있습니다.\n\n";
     
     for(var i = 0; i < 26; i++){
         result += ' '+'shift : '+ i + ' ⇒ ';
